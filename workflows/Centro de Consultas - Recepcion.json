@@ -1,0 +1,99 @@
+{
+  "name": "Centro de Consultas - Recepcion",
+  "nodes": [
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "simple": false,
+        "filters": {
+          "q": "in:inbox -from:me -category:promotions -category:social -category:updates -from:(noreply OR no-reply OR mailer-daemon)",
+          "readStatus": "unread"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmailTrigger",
+      "typeVersion": 1.4,
+      "position": [
+        -688,
+        -32
+      ],
+      "id": "41f35fcb-63d1-4ccc-8b88-6bbe34e1e453",
+      "name": "Gmail - Nueva consulta",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "mnCqF33uTPVrJWTC",
+          "name": "Gmail - Casilla negocio"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "TDT07GSR74JoniDq",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/TDT07GSR74JoniDq",
+          "cachedResultName": "Centro de Consultas - Procesar consulta"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "mode": "each",
+        "options": {
+          "waitForSubWorkflow": false
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.4,
+      "position": [
+        -464,
+        -32
+      ],
+      "id": "fc7184c9-967e-422f-9aa0-b930d76a4391",
+      "name": "Procesar cada consulta"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Gmail - Nueva consulta": {
+      "main": [
+        [
+          {
+            "node": "Procesar cada consulta",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "timeSavedMode": "fixed",
+    "timezone": "America/Argentina/Buenos_Aires",
+    "callerPolicy": "workflowsFromSameOwner",
+    "availableInMCP": false,
+    "errorWorkflow": "M85iVXC4wQ3NuZge"
+  },
+  "versionId": "e9ede39a-b3c8-4517-81dc-d2d29b742aac",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "e99cea670e053267bd497ab3a68a90d2f8622b1df0a6c1e1ebcbf920159ffb19"
+  },
+  "nodeGroups": [],
+  "id": "lOWoQLud0DIj98uA",
+  "tags": []
+}

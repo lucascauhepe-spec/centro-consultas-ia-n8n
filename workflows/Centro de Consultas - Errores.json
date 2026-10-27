@@ -1,0 +1,289 @@
+{
+  "name": "Centro de Consultas - Errores",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.errorTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "2b7a2eea-c1ac-4a25-b3ae-8a820e804e62",
+      "name": "Error Trigger"
+    },
+    {
+      "parameters": {
+        "operation": "create",
+        "base": {
+          "__rl": true,
+          "value": "appTZhXAyvSDVmjz2",
+          "mode": "list",
+          "cachedResultName": "Centro de Consultas - Alquileres",
+          "cachedResultUrl": "https://airtable.com/appTZhXAyvSDVmjz2"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tblwRmcCejEOW7pqs",
+          "mode": "list",
+          "cachedResultName": "Logs de error",
+          "cachedResultUrl": "https://airtable.com/appTZhXAyvSDVmjz2/tblwRmcCejEOW7pqs"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Resuelto": false,
+            "Resumen": "=Fallo inesperado en {{ $json.workflow.name }}",
+            "Tipo de error": "={{ $json.execution.lastNodeExecuted?.startsWith('Airtable') ? 'Fallo Airtable' : ($json.execution.lastNodeExecuted?.startsWith('Gmail') ? 'Fallo Gmail' : 'Otro') }}",
+            "Nodo": "={{ $json.execution.lastNodeExecuted }}",
+            "Execution ID": "={{ String($json.execution.id) }}",
+            "Mensaje de error": "={{ $json.execution.error?.message || 'Error sin detalle' }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Resumen",
+              "displayName": "Resumen",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Tipo de error",
+              "displayName": "Tipo de error",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "options",
+              "options": [
+                {
+                  "name": "Fallo API IA",
+                  "value": "Fallo API IA"
+                },
+                {
+                  "name": "Dato faltante",
+                  "value": "Dato faltante"
+                },
+                {
+                  "name": "Fallo Airtable",
+                  "value": "Fallo Airtable"
+                },
+                {
+                  "name": "Fallo Gmail",
+                  "value": "Fallo Gmail"
+                },
+                {
+                  "name": "Otro",
+                  "value": "Otro"
+                }
+              ],
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Nodo",
+              "displayName": "Nodo",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Mensaje de error",
+              "displayName": "Mensaje de error",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Execution ID",
+              "displayName": "Execution ID",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Gmail Message ID",
+              "displayName": "Gmail Message ID",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Consulta",
+              "displayName": "Consulta",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "array",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Resuelto",
+              "displayName": "Resuelto",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "boolean",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Fecha",
+              "displayName": "Fecha",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.2,
+      "position": [
+        544,
+        -128
+      ],
+      "id": "b21a35d9-cfab-45f3-b059-959a4cc2d236",
+      "name": "Airtable - Log error inesperado",
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "UcgNhiLZNBLNLxQa",
+          "name": "Airtable - Centro de Consultas"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $json.email_aprobador }}",
+        "subject": "=[ERROR] {{ $json.workflow.name }} - {{ $json.execution.lastNodeExecuted }}",
+        "emailType": "text",
+        "message": "=Falló el nodo {{ $json.execution.lastNodeExecuted }}. Error: {{ $json.execution.error?.message }}. Ver ejecución: {{ $json.execution.url }}",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        528,
+        208
+      ],
+      "id": "d3e5d272-88e5-4d70-9cdd-d23eb2b7a285",
+      "name": "Gmail - Avisar error",
+      "webhookId": "c0f0abfa-b0fc-4f09-b603-275209d79da6",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "mnCqF33uTPVrJWTC",
+          "name": "Gmail - Casilla negocio"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "c386d50b-2072-4b1f-bf09-f966936a2c0b",
+              "name": "email_aprobador",
+              "value": "lucascauhepe@gmail.com",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.5,
+      "position": [
+        240,
+        -16
+      ],
+      "id": "0e9bc728-d590-4423-91c1-a442ffad5e1c",
+      "name": "Configuracion"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Error Trigger": {
+      "main": [
+        [
+          {
+            "node": "Configuracion",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gmail - Avisar error": {
+      "main": [
+        []
+      ]
+    },
+    "Configuracion": {
+      "main": [
+        [
+          {
+            "node": "Gmail - Avisar error",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Airtable - Log error inesperado",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "timeSavedMode": "fixed",
+    "timezone": "America/Argentina/Buenos_Aires",
+    "callerPolicy": "workflowsFromSameOwner",
+    "availableInMCP": false
+  },
+  "versionId": "80f432eb-daa1-4030-9dfb-b86a909a90bd",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "e99cea670e053267bd497ab3a68a90d2f8622b1df0a6c1e1ebcbf920159ffb19"
+  },
+  "nodeGroups": [],
+  "id": "M85iVXC4wQ3NuZge",
+  "tags": []
+}
