@@ -9,7 +9,7 @@ Sistema que **responde los mails de huéspedes de un negocio de alquileres tempo
 | Recurso | Link |
 |---|---|
 | Video demo (3 min) | https://drive.google.com/file/d/1E0fkelxJoMAST6ar2gfEpuRKWGBeBrQj/view?usp=sharing |
-| Base de Airtable (solo lectura) | https://airtable.com/invite/l?inviteId=invDMkGQ4YjUe3nlF&inviteToken=17717b765dab0b360e52467f75819a0a269fa964967f4efa019b1b1d13b13433&utm_medium=email&utm_source=product_team&utm_content=transactional-alerts |
+| Base de Airtable (solo lectura) | https://airtable.com/appTZhXAyvSDVmjz2/shr85qdQnvHXl2VKk |
 | Diagrama de arquitectura (PDF) | [`docs/Diagrama_arquitectura.pdf`](docs/Diagrama_arquitectura.pdf) |
 | Workflows de n8n (JSON) | [`workflows/`](workflows/) |
 | Evidencias | [`evidencias/`](evidencias/) |
